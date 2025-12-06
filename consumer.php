@@ -9,15 +9,18 @@ $config = require __DIR__ . '/config.php';
 require_once __DIR__ . '/utils.php';
 
 $handle = fopen("php://stdin", "r");
-$queue = select_queue($handle);
+$exchange = create_or_select_exchange($handle);
+$queue = create_or_select_queue($handle);
 
-echo "Consuming from queue: $queue\n";
+echo "Consuming from queue: $queue (bound to exchange: $exchange)\n";
 
 try {
     $connection = AMQPConnectionFactory::create($config);
     $channel = $connection->channel();
 
+    $channel->exchange_declare($exchange, 'fanout', false, false, false);
     $channel->queue_declare($queue, false, false, false, false);
+    $channel->queue_bind($queue, $exchange);
 
     echo " [*] Waiting for messages. To exit press CTRL+C\n";
 

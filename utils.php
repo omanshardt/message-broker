@@ -1,6 +1,16 @@
 <?php
 
-function select_queue($handle)
+
+function create_or_select_exchange($handle)
+{
+    echo "Enter exchange name: ";
+    $exchange = trim(fgets($handle));
+    if (empty($exchange)) {
+        $exchange = 'logs'; // Default
+    }
+    return $exchange;
+}
+function create_or_select_queue($handle)
 {
     echo "Select queue to consume from:\n";
     echo "1) basic_queue\n";
