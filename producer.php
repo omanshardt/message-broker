@@ -7,17 +7,27 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 $config = require __DIR__ . '/config.php';
 
+require_once __DIR__ . '/utils.php';
+
+$handle = fopen("php://stdin", "r");
+$queue = select_queue($handle);
+
+echo "Enter message payload [Hello World!]: ";
+$payload = trim(fgets($handle));
+if (empty($payload)) {
+    $payload = 'Hello World!';
+}
+
 try {
     $connection = AMQPConnectionFactory::create($config);
     $channel = $connection->channel();
 
-    $channel->queue_declare('basic_queue', false, false, false, false);
+    $channel->queue_declare($queue, false, false, false, false);
 
-    $payload = 'Murmeltier Hello World!';
     $msg = new AMQPMessage($payload);
-    $channel->basic_publish($msg, '', 'basic_queue');
+    $channel->basic_publish($msg, '', $queue);
 
-    echo " [x] Sent '$payload'\n";
+    echo " [x] Sent '$payload' to '$queue'\n";
 
     $channel->close();
     $connection->close();
