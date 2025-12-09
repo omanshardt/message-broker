@@ -9,24 +9,23 @@ $config = require __DIR__ . '/config.php';
 
 require_once __DIR__ . '/utils.php';
 
+echo "Setup one exchange and one queue and bind them to each other.\n";
+
 $handle = fopen("php://stdin", "r");
 $exchange = create_or_select_exchange($handle);
-
-echo "Enter message payload [Hello World!]: ";
-$payload = trim(fgets($handle));
-if (empty($payload)) {
-    $payload = 'Hello World!';
-}
+$queue = create_or_select_queue($handle);
 
 try {
     $connection = AMQPConnectionFactory::create($config);
     $channel = $connection->channel();
 
-    $msg = new AMQPMessage($payload);
-    $channel->basic_publish($msg, $exchange);
+    $channel->exchange_declare($exchange, 'fanout', false, false, false);
+    $channel->queue_declare($queue, false, false, false, false);
+    $channel->queue_bind($queue, $exchange);
 
-    echo " [x] Sent '$payload' to exchange '$exchange'\n";
-    sleep(10);
+    echo " [x] Created exchange '$exchange' (if not already existed)\n";
+    echo " [x] Created exchange '$queue' (if not already existed)\n";
+    echo " [x] Bound queue '$queue' to exchange '$exchange' (if not already bound)\n";
 
     $channel->close();
     $connection->close();

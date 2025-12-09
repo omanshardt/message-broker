@@ -12,7 +12,7 @@ function create_or_select_exchange($handle)
 }
 function create_or_select_queue($handle)
 {
-    echo "Select queue to consume from:\n";
+    echo "Select queue name:\n";
     echo "1) basic_queue\n";
     echo "2) task_queue\n";
     echo "3) pubsub_queue\n";
