@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\MyAdmin;
+use App\Administrator;
 
-$admin = new MyAdmin();
+$admin = new Administrator();
 $admin->reset();
 echo "Exchanges and Queues resetted.";
