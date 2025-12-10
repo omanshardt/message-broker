@@ -7,10 +7,10 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 $config = require __DIR__ . '/config.php';
 
-require_once __DIR__ . '/utils.php';
+use App\Utils;
 
 $handle = fopen("php://stdin", "r");
-$exchange = create_or_select_exchange($handle);
+$exchange = Utils::create_or_select_exchange($handle);
 
 echo "Enter message payload [Hello World!]: ";
 $payload = trim(fgets($handle));

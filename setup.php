@@ -7,13 +7,13 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 $config = require __DIR__ . '/config.php';
 
-require_once __DIR__ . '/utils.php';
+use App\Utils;
 
 echo "Setup one exchange and one queue and bind them to each other.\n";
 
 $handle = fopen("php://stdin", "r");
-$exchange = create_or_select_exchange($handle);
-$queue = create_or_select_queue($handle);
+$exchange = Utils::create_or_select_exchange($handle);
+$queue = Utils::create_or_select_queue($handle);
 
 try {
     $connection = AMQPConnectionFactory::create($config);

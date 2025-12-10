@@ -8,10 +8,10 @@ $config = require __DIR__ . '/config.php';
 $config->setUser('consumer-2');
 $config->setPassword('consumer-2');
 
-require_once __DIR__ . '/utils.php';
+use App\Utils;
 
 $handle = fopen("php://stdin", "r");
-$queue = create_or_select_queue($handle);
+$queue = Utils::create_or_select_queue($handle);
 
 echo "Consuming from queue: $queue\n";
 
