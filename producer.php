@@ -18,18 +18,7 @@ if (empty($payload)) {
     $payload = 'Hello World!';
 }
 
-try {
-    $connection = AMQPConnectionFactory::create($config);
-    $channel = $connection->channel();
+use App\Producer;
 
-    $msg = new AMQPMessage($payload);
-    $channel->basic_publish($msg, $exchange);
-
-    echo " [x] Sent '$payload' to exchange '$exchange'\n";
-    sleep(10);
-
-    $channel->close();
-    $connection->close();
-} catch (\Throwable $e) {
-    echo "Error: " . $e->getMessage() . "\n";
-}
+$producer = new Producer($config);
+$producer->publish($exchange, $payload);

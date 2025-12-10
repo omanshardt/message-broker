@@ -13,21 +13,7 @@ use App\Utils;
 $handle = fopen("php://stdin", "r");
 $queue = Utils::create_or_select_queue($handle);
 
-echo "Consuming from queue: $queue\n";
+use App\Consumer;
 
-try {
-    $connection = AMQPConnectionFactory::create($config);
-    $channel = $connection->channel();
-
-    echo " [*] Waiting for messages. To exit press CTRL+C\n";
-
-    $callback = function ($msg) {
-        echo ' [x] Received ', $msg->body, "\n";
-    };
-
-    $channel->basic_consume($queue, '', false, true, false, false, $callback);
-
-    $channel->consume();
-} catch (\Throwable $exception) {
-    echo "Error: " . $exception->getMessage() . "\n";
-}
+$consumer = new Consumer($config);
+$consumer->consume($queue);
