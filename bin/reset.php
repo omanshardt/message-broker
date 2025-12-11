@@ -6,4 +6,4 @@ use App\Administrator;
 
 $admin = new Administrator();
 $admin->reset();
-echo "Exchanges and Queues resetted.";
+echo "Bindings, Exchanges and Queues resetted.";

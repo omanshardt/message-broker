@@ -135,9 +135,48 @@ class Administrator
         return $this->callApi('GET', 'bindings/');
     }
 
+    public function createBindingViaAPI($queue, $exchange, $routing_key = '', $arguments = [])
+    {
+        $body = [
+            'routing_key' => $routing_key,
+            'arguments' => $arguments
+        ];
+        // This is the original api call as proposed from Antigravity
+        // return $this->callApi('POST', "bindings/%2F/e/" . urlencode($source) . "/q/" . urlencode($destination), json_encode($body));
+        // The sgnature of this method accordingly was:
+        // public function createBindingViaAPI($source, $destination, $routing_key = '', $arguments = [])
+        // with $source being the exchange and $destination being the queue.
+        // I switched to more recognizable names and switched arguments ($exchange, $queue) to match the signature of the framework method. 
+        return $this->callApi('POST', "bindings/%2F/e/" . urlencode($exchange) . "/q/" . urlencode($queue), json_encode($body));
+    }
+
+    public function createBindingViaFramework($queue, $exchange, $routing_key = '', $nowait = false, $arguments = [], $ticket = null)
+    {
+        $this->channel->queue_bind($queue, $exchange, $routing_key, $nowait, $arguments, $ticket);
+    }
+
+    public function deleteBindings()
+    {
+        $bindings = json_decode($this->getBindings(), true);
+        foreach ($bindings as $binding) {
+            $source = $binding['source'];
+            $destination = $binding['destination'];
+            $type = $binding['destination_type'] === 'queue' ? 'q' : 'e';
+            $props = $binding['properties_key'];
+
+            if (empty($source)) {
+                continue; // Skip default exchange bindings
+            }
+
+            echo "Deleting binding: $source -> $destination\n";
+            $this->callApi('DELETE', "bindings/%2F/e/" . urlencode($source) . "/$type/" . urlencode($destination) . "/" . urlencode($props));
+        }
+    }
+
 
     public function reset()
     {
+        $this->deleteBindings();
         $this->deleteQueues();
         $this->deleteExchanges();
     }
