@@ -174,6 +174,33 @@ class Administrator
     }
 
 
+    public function getUsers()
+    {
+        return $this->callApi('GET', 'users/');
+    }
+
+    public function createUser($name, $password, $tags = '')
+    {
+        $body = [
+            'password' => $password,
+            'tags' => $tags
+        ];
+        return $this->callApi('PUT', 'users/' . urlencode($name), json_encode($body));
+    }
+
+    public function deleteUsers()
+    {
+        $users = json_decode($this->getUsers(), true);
+        foreach ($users as $user) {
+            $name = $user['name'];
+            if ($name === 'admin') {
+                continue;
+            }
+            echo "Deleting user: $name\n";
+            $this->callApi('DELETE', 'users/' . urlencode($name));
+        }
+    }
+
     public function reset()
     {
         $this->deleteBindings();
