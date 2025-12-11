@@ -98,6 +98,7 @@ class Administrator
         }
     }
 
+
     public function createQueueViaAPI($name, $durable = true, $auto_delete = false, $arguments = [])
     {
         $body = [

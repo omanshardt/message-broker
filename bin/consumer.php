@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPConnectionFactory;
 
-$config = require __DIR__ . '/config.php';
+$config = require __DIR__ . '/../config.php';
 $config->setUser('consumer-2');
 $config->setPassword('consumer-2');
 
