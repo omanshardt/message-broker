@@ -59,4 +59,6 @@ $result = $admin->createUser($username, $password, $tags);
 
 if ($result !== false) {
     echo "User created successfully.\n";
+    // $admin->setPermissions($username);
+    // echo "Permissions granted for vhost '/'.\n";
 }

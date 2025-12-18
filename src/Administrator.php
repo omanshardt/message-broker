@@ -193,7 +193,24 @@ class Administrator
             'password' => $password,
             'tags' => $tags
         ];
-        return $this->callApi('PUT', 'users/' . urlencode($name), json_encode($body));
+        $ret = $this->callApi('PUT', 'users/' . urlencode($name), json_encode($body));
+        echo '!' . $ret . '!';
+        if ($ret !== false) {
+            echo "YAAAAA\n";
+            $this->setPermissions($name);
+            return true;
+        }
+        return false;
+    }
+
+    public function setPermissions($user, $vhost = '/', $configure = '.*', $write = '.*', $read = '.*')
+    {
+        $body = [
+            'configure' => $configure,
+            'write' => $write,
+            'read' => $read
+        ];
+        return $this->callApi('PUT', 'permissions/' . urlencode($vhost) . '/' . urlencode($user), json_encode($body));
     }
 
     public function deleteUsers()
