@@ -6,6 +6,8 @@ use PhpAmqpLib\Connection\AMQPConnectionFactory;
 use PhpAmqpLib\Message\AMQPMessage;
 
 $config = require __DIR__ . '/../config.php';
+$config->setUser('producer-1');
+$config->setPassword('Test!234');
 
 use App\Utils;
 

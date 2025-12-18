@@ -2,24 +2,70 @@
 
 ## Setup
 
-Call this script to setup one exchange and one queue and bind them to each other.
+**setup_fanout**
+
+Call this script to setup one exchange of type 'fanout and one queue and bind them to each other.
 
 ```bash
-php setup.php
+php setup_fanout.php
+```
+
+## Reset
+
+**reset**
+
+Call this script to reset the RabbitMQ server to it's default values. This deletes all custom exchanges, queues, bindings and users.
+
+```bash
+php reset.php
 ```
 
 ## Consumer
 
-Call this script to consume messages from the queue. You will be asked for the queue name.
+**consumer_1, consumer_2**
+
+Call one of the following scripts to consume messages from the queue. You will be asked for the queue name.
 
 ```bash
-php consumer.php
+php consumer_1.php
+php consumer_2.php
 ```
+The created consumer will open a connection and consume messages from the queue using specific credentials.
 
 ## Producer
 
-Call this script to produce messages to the exchange. You will be asked for the exchange name.
+**producer_1, producer_2**
+
+Call one of the following scripts to produce messages to the exchange. You will be asked for the exchange name.
 
 ```bash
-php producer.php
+php producer_1.php
+php producer_2.php
+```
+The created producer will open a connection and produce messages to the exchange using specific credentials.
+
+## User
+
+**user_create**
+
+Call this script to create a user with specific permissions.
+
+```bash
+php user_create.php
+```
+
+**users_create**
+
+Call this script to create multiple users with specific permissions.
+
+```bash
+php users_create.php
+```
+
+**user_delete**
+
+Call this script to delete a user.
+
+```bash
+php user_delete.php
 ```
