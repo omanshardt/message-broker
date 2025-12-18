@@ -181,6 +181,14 @@ class Administrator
 
     public function createUser($name, $password, $tags = '')
     {
+        $users = json_decode($this->getUsers(), true);
+        foreach ($users as $user) {
+            if ($user['name'] === $name) {
+                echo "User '$name' already exists.\n";
+                return false;
+            }
+        }
+
         $body = [
             'password' => $password,
             'tags' => $tags
