@@ -194,9 +194,8 @@ class Administrator
             'tags' => $tags
         ];
         $ret = $this->callApi('PUT', 'users/' . urlencode($name), json_encode($body));
-        echo '!' . $ret . '!';
+
         if ($ret !== false) {
-            echo "YAAAAA\n";
             $this->setPermissions($name);
             return true;
         }
