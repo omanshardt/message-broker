@@ -32,6 +32,19 @@ php consumer_2.php
 ```
 The created consumer will open a connection and consume messages from the queue using specific credentials.
 
+consumer_1.php will consume messages from the queue using no_ack = true.
+
+- This means that the consumer will not auto-acknowledge the message.
+- The message will not be auto-deleted from the queue.
+- In ths exampe the user is being asked to acknowledge the message manually
+<!-- - If the consumer crashes, the message will be requeued. -->
+
+consumer_2.php will consume messages from the queue using no_ack = false.
+
+- This means that the consumer will auto-acknowledge the message.
+- The message will be auto-deleted from the queue.
+<!-- - If the consumer crashes, the message will not be requeued. -->
+
 ## Producer
 
 **producer_1, producer_2**

@@ -24,3 +24,4 @@ use App\Producer;
 
 $producer = new Producer($config);
 $producer->publish($exchange, $payload);
+fclose($handle);

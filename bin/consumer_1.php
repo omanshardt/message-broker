@@ -16,4 +16,5 @@ $queue = Utils::create_or_select_queue($handle);
 use App\Consumer;
 
 $consumer = new Consumer($config);
-$consumer->consume($queue);
+$consumer->consume($queue, "my_consumer_1_tag", false, false, false, false, null);
+fclose($handle);
