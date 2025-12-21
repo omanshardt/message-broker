@@ -34,7 +34,21 @@ class Consumer
                             $channel->basic_ack($msg->delivery_info['delivery_tag']);
                             echo "[x] Message acknowledged\n";
                         } else {
-                            echo "[x] Message NOT acknowledged\n";
+                            // Es sieht so aus, als würde es dre Zustände geben
+                            // aktives basic_nack mit Option requeuing = true: requeuing (impliziert natürlich das Nicht-Löschen)
+                            // aktives basic_nack mit Option requeuing = false: nicht requeuing (impliziert das Löschen)
+                            // kein aktives basic_nack: nicht requeuing und nicht löschen
+                            echo "[x] Do you want to requeue the message? (y/n/x)\n";
+                            $response = trim(fgets($handle));
+                            if ($response === 'y') {
+                                $channel->basic_nack($msg->delivery_info['delivery_tag'], false, true);
+                                echo "[x] Message rejected and requeued\n";
+                            } else if ($response === 'n') {
+                                $channel->basic_nack($msg->delivery_info['delivery_tag'], false, false);
+                                echo "[x] Message rejected but not requeued\n";
+                            } else {
+                                echo "[x] Message rejected, not deleted but also not requeued\n";
+                            }
                         }
                     }
                     fclose($handle);
