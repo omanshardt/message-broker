@@ -19,7 +19,7 @@ try {
     $connection = AMQPConnectionFactory::create($config);
     $channel = $connection->channel();
 
-    $channel->exchange_declare($exchange, 'fanout', false, false, false);
+    $channel->exchange_declare('ex:fanout', 'fanout', false, false, false);
     $channel->queue_declare($queue, false, false, false, false);
     $channel->queue_bind($queue, $exchange);
 

@@ -21,6 +21,11 @@ class Consumer
             $connection = AMQPConnectionFactory::create($this->config);
             $channel = $connection->channel();
 
+            // Set prefetch count to 1 to ensure only one message is processed at a time, see https://www.rabbitmq.com/consumer-prefetch.html
+            // This is useful for load balancing
+            // source: gemini, RabbitMQ Queue-Metriken erklärt
+            $channel->basic_qos(0, 1, false);
+
             if (!$callback) {
                 $callback = function ($msg) use ($channel, $no_ack) {
                     // file_put_contents('messages.php', print_r($msg, true) . "\n");
@@ -43,11 +48,12 @@ class Consumer
                             if ($response === 'y') {
                                 $channel->basic_nack($msg->delivery_info['delivery_tag'], false, true);
                                 echo "[x] Message rejected and requeued\n";
+                                // exit;
                             } else if ($response === 'n') {
                                 $channel->basic_nack($msg->delivery_info['delivery_tag'], false, false);
                                 echo "[x] Message rejected but not requeued\n";
                             } else {
-                                echo "[x] Message rejected, not deleted but also not requeued\n";
+                                echo "[x] Message left unacknowledged and unrejected. No action taken at all.\n";
                             }
                         }
                     }

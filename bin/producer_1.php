@@ -19,9 +19,11 @@ $payload = trim(fgets($handle));
 if (empty($payload)) {
     $payload = 'Hello World!';
 }
+echo "Enter routing key []: ";
+$routingKey = trim(fgets($handle));
 
 use App\Producer;
 
 $producer = new Producer($config);
-$producer->publish($exchange, $payload);
+$producer->publish($exchange, $payload, $routingKey);
 fclose($handle);

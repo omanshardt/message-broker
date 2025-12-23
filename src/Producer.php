@@ -23,9 +23,7 @@ class Producer
             $msg = new AMQPMessage($messageBody);
             $channel->basic_publish($msg, $exchange, $routing_key, $mandatory, $immediate, $ticket);
 
-            echo " [x] Sent Message: '$messageBody' to Exchange: '$exchange'\n";
-            sleep(30);
-            echo " [x] √    \n";
+            echo " [x] Sent Message: '$messageBody' to Exchange: '$exchange' with Routing Key: '$routing_key'\n";
 
             $channel->close();
             $connection->close();
