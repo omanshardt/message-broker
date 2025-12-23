@@ -10,9 +10,15 @@ use App\Administrator;
 
 use App\Utils;
 
-echo "Setup one exchange and three queues and bind them to each other.\n";
+$type = isset($argv[1]) ? $argv[1] : 'fanout';
 
-$exchange = $app['exchanges']['fanout'];
+if (!array_key_exists($type, $app['exchanges'])) {
+    die("Error: Invalid environment type '$type'. Available types: " . implode(', ', array_keys($app['exchanges'])) . "\n");
+}
+
+echo "Setting up environment for type: $type\n";
+
+$exchange = $app['exchanges'][$type];
 $queues = $exchange['queues'];
 $admin = new Administrator($config, $app);
 $admin->connect();

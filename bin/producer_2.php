@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPConnectionFactory;
 use PhpAmqpLib\Message\AMQPMessage;
 
-$config = require __DIR__ . '/../config.php';
+require __DIR__ . '/../config.php';
 $config->setUser('producer-2');
 $config->setPassword('Test!234');
 

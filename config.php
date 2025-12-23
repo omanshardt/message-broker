@@ -54,7 +54,7 @@ $app = [
             'ticket' => null,
             'queues' => [
                 [
-                    'name' => 'qd:fanout-1',
+                    'name' => 'q:fanout-1',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -70,7 +70,7 @@ $app = [
                     ],
                 ],
                 [
-                    'name' => 'qd:fanout-2',
+                    'name' => 'q:fanout-2',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -86,7 +86,7 @@ $app = [
                     ],
                 ],
                 [
-                    'name' => 'qd:fanout-3',
+                    'name' => 'q:fanout-3',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -115,7 +115,7 @@ $app = [
             'ticket' => null,
             'queues' => [
                 [
-                    'name' => 'qd:direct-info',
+                    'name' => 'q:direct-1',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -131,7 +131,7 @@ $app = [
                     ],
                 ],
                 [
-                    'name' => 'qd:direct-warning',
+                    'name' => 'q:direct-2',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -147,7 +147,7 @@ $app = [
                     ],
                 ],
                 [
-                    'name' => 'qd:direct-error',
+                    'name' => 'q:direct-3',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -165,6 +165,7 @@ $app = [
             ],
         ],
         'topic' => [
+            // test with message key: "convert.image.jpg"
             'name' => 'ex:topic',
             'type' => 'topic',
             'passive' => false,
@@ -176,7 +177,7 @@ $app = [
             'ticket' => null,
             'queues' => [
                 [
-                    'name' => 'qd:topic-1',
+                    'name' => 'q:topic-1',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -184,9 +185,15 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '*.image.*',
+                            'arguments' => [],
+                        ],
+                    ],
                 ],
                 [
-                    'name' => 'qd:topic-2',
+                    'name' => 'q:topic-2',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -194,9 +201,15 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '#.image',
+                            'arguments' => [],
+                        ],
+                    ],
                 ],
                 [
-                    'name' => 'qd:topic-3',
+                    'name' => 'q:topic-3',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -204,12 +217,19 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '#.jpg',
+                            'arguments' => [],
+                        ],
+                    ],
                 ],
             ],
         ],
-        'header' => [
-            'name' => 'ex:header',
-            'type' => 'header',
+        'headers' => [
+            // test with message key: "convert.image.bmp"
+            'name' => 'ex:headers',
+            'type' => 'headers',
             'passive' => false,
             'durable' => false,
             'auto_delete' => true,
@@ -219,7 +239,7 @@ $app = [
             'ticket' => null,
             'queues' => [
                 [
-                    'name' => 'qd:header-1',
+                    'name' => 'q:header-1',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -227,9 +247,19 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '',
+                            'arguments' => [
+                                'x-match' => 'all',
+                                'job' => 'convert',
+                                'format' => 'jpg',
+                            ],
+                        ],
+                    ],
                 ],
                 [
-                    'name' => 'qd:header-2',
+                    'name' => 'q:header-2',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -237,9 +267,19 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '',
+                            'arguments' => [
+                                'x-match' => 'any',
+                                'job' => 'convert',
+                                'format' => 'jpg',
+                            ],
+                        ],
+                    ],
                 ],
                 [
-                    'name' => 'qd:header-3',
+                    'name' => 'q:header-3',
                     'passive' => false,
                     'durable' => true,
                     'exclusive' => false,
@@ -247,6 +287,15 @@ $app = [
                     'nowait' => false,
                     'arguments' => [],
                     'ticket' => null,
+                    'bindings' => [
+                        [
+                            'routing_key' => '',
+                            'arguments' => [
+                                'x-match' => 'any',
+                                'job' => 'convert',
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ],

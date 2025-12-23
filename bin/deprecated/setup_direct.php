@@ -11,7 +11,6 @@ use App\Utils;
 
 echo "Setup one exchange and one queue and bind them to each other.\n";
 
-$handle = fopen("php://stdin", "r");
 $exchange = 'ex:direct';
 
 try {

@@ -5,6 +5,7 @@ namespace App;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Connection\AMQPConnectionFactory;
+use PhpAmqpLib\Wire\AMQPTable;
 
 class Administrator
 {
@@ -152,8 +153,13 @@ class Administrator
         return $this->callApi('POST', "bindings/%2F/e/" . urlencode($exchange) . "/q/" . urlencode($queue), json_encode($body));
     }
 
+
+
     public function createBindingViaFramework($queue, $exchange, $routing_key = '', $nowait = false, $arguments = [], $ticket = null)
     {
+        if (is_array($arguments) && !empty($arguments)) {
+            $arguments = new AMQPTable($arguments);
+        }
         $this->channel->queue_bind($queue, $exchange, $routing_key, $nowait, $arguments, $ticket);
     }
 
