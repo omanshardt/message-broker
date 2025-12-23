@@ -9,12 +9,14 @@ use PhpAmqpLib\Connection\AMQPConnectionFactory;
 class Administrator
 {
     private $config;
+    private $appConfig;
     private AbstractConnection $connection;
     private AMQPChannel $channel;
 
-    public function __construct($config = null)
+    public function __construct($config = null, $appConfig = null)
     {
         $this->config = $config;
+        $this->appConfig = $appConfig;
     }
 
     public function connect()
@@ -230,5 +232,15 @@ class Administrator
         $this->deleteBindings();
         $this->deleteQueues();
         $this->deleteExchanges();
+    }
+
+    public function setupEnvironment($type = 'fanout', $reset = false)
+    {
+        if ($reset) {
+            $this->reset();
+        }
+        $this->createExchanges();
+        $this->createQueues();
+        $this->createBindings();
     }
 }
