@@ -9,7 +9,7 @@ class Utils
         echo "Enter exchange name: ";
         $exchange = trim(fgets($handle));
         if (empty($exchange)) {
-            $exchange = 'logs'; // Default
+            $exchange = ''; // Default
         }
         return $exchange;
     }
