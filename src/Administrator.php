@@ -56,7 +56,7 @@ class Administrator
         $response = curl_exec($ch);
 
         if (!$response && curl_errno($ch)) {
-            die('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
+            throw new \Exception('Error: "' . curl_error($ch) . '" - Code: ' . curl_errno($ch));
         }
 
         curl_close($ch);

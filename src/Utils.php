@@ -48,4 +48,14 @@ class Utils
 
         return $queue;
     }
+
+    public static function getPassword($app, $username)
+    {
+        foreach ($app['users'] as $user) {
+            if ($user['name'] === $username) {
+                return $user['password'];
+            }
+        }
+        throw new \Exception("User '$username' not found in configuration.");
+    }
 }

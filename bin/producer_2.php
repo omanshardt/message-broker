@@ -7,7 +7,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 require __DIR__ . '/../config.php';
 $config->setUser('producer-2');
-$config->setPassword('Test!234');
+$config->setPassword(App\Utils::getPassword($app, 'producer-2'));
 
 use App\Utils;
 

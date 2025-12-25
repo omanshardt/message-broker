@@ -119,10 +119,10 @@ Call this script to create multiple users with specific permissions.
 php bin/users_create.php
 ```
 
-**bin/user_delete.php**
+**bin/users_delete.php**
 
 Call this script to delete a user.
 
 ```bash
-php bin/user_delete.php
+php bin/users_delete.php
 ```
