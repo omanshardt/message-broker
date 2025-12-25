@@ -1,0 +1,12 @@
+[JIRA-ID] <type>: <title>
+# ---
+# STRUCTURE:
+# [JIRA-ID] <type>: <title>
+#
+# <Body (optional): Explain WHY and WHAT (wrap at 72 chars)>
+# ---
+# GUIDELINES:
+# <type>: feat, fix, docs, refactor, test, chore
+# Subject: Max 50 chars, imperative style, no period.
+# Empty line between subject and body is mandatory.
+# ---
