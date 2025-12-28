@@ -1,4 +1,7 @@
 {
+    "name": "omanshardt/message-broker",
+    "description": "RabbitMQ PHP Demo Project",
+    "license": "MIT",
     "require": {
         "php-amqplib/php-amqplib": "^3.0"
     },
