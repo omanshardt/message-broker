@@ -22,8 +22,10 @@ if (empty($payload)) {
 echo "Enter routing key []: ";
 $routingKey = trim(fgets($handle));
 
+$headers = Utils::getHeaders($handle);
+
 use App\Producer;
 
 $producer = new Producer($config);
-$producer->publish($exchange, $payload, $routingKey);
+$producer->publish($exchange, $payload, $routingKey, false, false, null, $headers);
 fclose($handle);

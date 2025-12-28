@@ -58,4 +58,31 @@ class Utils
         }
         throw new \Exception("User '$username' not found in configuration.");
     }
+    public static function getHeaders($handle)
+    {
+        $headers = [];
+
+        echo "Enter x-match [all]: ";
+        $xMatch = trim(fgets($handle));
+        if (empty($xMatch)) {
+            $xMatch = 'all';
+        }
+        $headers['x-match'] = $xMatch;
+
+        echo "Enter job [convert]: ";
+        $job = trim(fgets($handle));
+        if (empty($job)) {
+            $job = 'convert';
+        }
+        $headers['job'] = $job;
+
+        echo "Enter format [jpg]: ";
+        $format = trim(fgets($handle));
+        if (empty($format)) {
+            $format = 'jpg';
+        }
+        $headers['format'] = $format;
+
+        return $headers;
+    }
 }
