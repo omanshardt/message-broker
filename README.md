@@ -1,10 +1,33 @@
 # RabbitMQ Examples
 
+## Usage
+
+1. Create Users for the demo. This creates the users needed for the producers and consumers (see below).
+
+    ```bash
+    php bin/create_users.php
+    ```
+
+2. Setup the environment for the exchange type you want to demo. You can choose between 'fanout', 'direct', 'topic' and 'headers' and you can setup multiple environments. Each environment will be created with one exchange and three queues and bindings.
+
+    ```bash
+    php bin/setup_env.php fanout
+    ```
+
+3.Run the producer and consumer scripts to send and receive messages.
+
+    ```bash
+    php bin/producer_1.php
+    php bin/consumer_1.php
+    ```
+
+    If asked, provide exchange name, queue name, binding and acknowledgement policy.
+
 ## Setup
 
 **bin/deprecated/setup_fanout.php**
 
-Call this script to setup one exchange of type 'fanout and one queue and bind the queue to the exchange. This is deprecated and only for reference.
+Call this script to setup one exchange of type 'fanout' and one queue and bind the queue to the exchange. This is deprecated and only for reference.
 
 ```bash
 php bin/deprecated/setup_fanout.php
@@ -12,7 +35,7 @@ php bin/deprecated/setup_fanout.php
 
 **bin/deprecated/setup_direct.php**
 
-Call this script to setup one exchange of type 'direct and three queues and bind them to the exchange. This is deprecated and only for reference.
+Call this script to setup one exchange of type 'direct' and three queues and bind them to the exchange. This is deprecated and only for reference.
 
 ```bash
 php bin/deprecated/setup_direct.php
@@ -31,7 +54,7 @@ php bin/setup_env.php headers
 
 **bin/create_users.php**
 
-Call this script to create users with specific permissions. This will create three producer-users of which two are hard-coded in the producer scripts and three consumer-users of which two are hard-coded in the consumer scripts. Consumer- and producer users are only differentiated by their names for better recognition.
+Call this script to create users with specific permissions. This will create three producer-users of which two are used in the producer scripts and three consumer-users of which two are used in the consumer scripts. Consumer- and producer users are only differentiated by their names for better recognition.
 
 ```bash
 php bin/create_users.php
@@ -53,6 +76,20 @@ Call this script to delete all custom exchanges, queues and bindings.
 
 ```bash
 php bin/reset.php
+```
+
+If you want to reset RabbitMQ to its default state, run birth scripts one after another.
+
+```bash
+php bin/reset.php
+php bin/users_delete.php
+```
+
+or reset RabbitMQ directly on the command line of the server where RabbitMQ is running.
+
+```bash
+rabbitmqctl reset
+php bin/users_delete.php
 ```
 
 **bin/users_delete.php**
