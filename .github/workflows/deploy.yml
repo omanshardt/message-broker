@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e  # <--- SEHR WICHTIG: Bricht bei jedem Fehler sofort ab!
             # 1. Variablen definieren
             BASE_DIR="/srv/message-broker/workspace"
             TIMESTAMP=$(date +%Y%m%d%H%M%S)
