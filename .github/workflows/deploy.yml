@@ -1,0 +1,45 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ master, development ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. Variablen definieren
+            BASE_DIR="/srv/message-broker/workspace"
+            TIMESTAMP=$(date +%Y%m%d%H%M%S)
+            
+            if [ "${{ github.ref_name }}" = "master" ]; then
+              TARGET_LINK="$BASE_DIR/production"
+              RELEASE_DIR="$BASE_DIR/releases/prod-$TIMESTAMP"
+            else
+              TARGET_LINK="$BASE_DIR/development"
+              RELEASE_DIR="$BASE_DIR/releases/dev-$TIMESTAMP"
+            fi
+
+            # 2. Struktur sicherstellen
+            mkdir -p $RELEASE_DIR
+
+            # 3. Code vom GitHub-Repo in den Release-Ordner holen
+            # Da wir auf dem Server sind, ist git clone/pull am einfachsten
+            git clone --depth 1 --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}.git $RELEASE_DIR
+
+            # 4. Atomic Symlink umschalten
+            ln -sfn $RELEASE_DIR ${TARGET_LINK}_tmp
+            mv -Tf ${TARGET_LINK}_tmp $TARGET_LINK
+
+            # 5. Aufräumen: Alte Releases löschen (behalte die letzten 5)
+            cd $BASE_DIR/releases && ls -t | tail -n +6 | xargs rm -rf --
