@@ -22,7 +22,7 @@ jobs:
             BASE_DIR="/srv/message-broker/workspace"
             TIMESTAMP=$(date +%Y%m%d%H%M%S)
             
-            if [ "${{ github.ref_name }}" = "master" ]; then
+            if [ "${{ github.ref_name }}" = "main" ]; then
               TARGET_LINK="$BASE_DIR/production"
               RELEASE_DIR="$BASE_DIR/releases/prod-$TIMESTAMP"
             else
